@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 import uvicorn
 import os
-from .config import setup_cors
-from .routes import router
+from blog.config import setup_cors
+from blog.routes import router
+
 
 app = FastAPI()
 setup_cors(app)
