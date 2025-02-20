@@ -1,10 +1,18 @@
 from fastapi import FastAPI
 import uvicorn
 import os
-from blog.config import setup_cors
-from blog.routes import router
+from dotenv import load_dotenv
+from routes.blog import router
+from lib.mongo import connect_mongo  # ✅ Ensure MongoDB is initialized
+from lib.cors import setup_cors
 
+# Load environment variables
+load_dotenv()
 
+# Initialize MongoDB client before using it
+connect_mongo()  # ✅ Ensure MongoDB is ready before FastAPI starts
+
+# Initialize FastAPI
 app = FastAPI()
 setup_cors(app)
 
