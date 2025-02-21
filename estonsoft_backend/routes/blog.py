@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from controllers.portfolio import router as portfolio_router
+from controllers.blog import router as blog_router
 
-router = APIRouter()
-router.include_router(portfolio_router, prefix="/portfolio")
+blog_routes = APIRouter()
+blog_routes.include_router(blog_router, prefix="/post")
 
