@@ -1,4 +1,17 @@
-fastapi
-pymongo
-uvicorn
-pydantic
+pip install fastapi pymongo bcrypt pyjwt "uvicorn[standard]"
+
+# for mac/os
+export ALLOWED_ORIGINS="http://localhost:3000,http://example.com"
+export MONGO_CONNECTION_STRING="mongodb://localhost:27017"
+export SECRET_KEY="cea646be6bcde95259bce93c65c1953a"
+export ADMIN_PASSWORD="admin123"
+export PORT=8000
+
+# run this for set value in OS environment
+$env:ALLOWED_ORIGINS="http://localhost:3000,http://example.com"
+$env:MONGO_CONNECTION_STRING="mongodb://localhost:27017"
+$env:SECRET_KEY="cea646be6bcde95259bce93c65c1953a"
+$env:ADMIN_PASSWORD="admin123"
+$env:PORT=8000
+
+
