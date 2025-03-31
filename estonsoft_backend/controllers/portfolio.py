@@ -1,38 +1,27 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from models.portfolio import Portfolio, PortfolioResponse
 from services.portfolio import PortfolioService
+from lib.jwt import verify_token
 
-router = APIRouter()
+router = APIRouter(prefix="/portfolios")
 
-@router.post("/", response_model=PortfolioResponse)
-def create_post(portfolio_post: Portfolio):
-    post_dict = portfolio_post.model_dump()
-    created_post = PortfolioService.create_post(post_dict)
-    return created_post
+@router.post("/", response_model=dict)
+async def create_portfolio(portfolio: Portfolio, auth_user: dict = Depends(verify_token)):
+    return PortfolioService.create_portfolio(portfolio, auth_user)
 
 @router.get("/", response_model=List[PortfolioResponse])
-def get_posts():
-    return PortfolioService.get_all_posts()
+async def get_all_portfolios(auth_user: dict = Depends(verify_token)):
+    return PortfolioService.get_all_portfolios(auth_user)
 
-@router.get("/{post_id}", response_model=PortfolioResponse)
-def get_post(post_id: str):
-    post = PortfolioService.get_post_by_id(post_id)
-    if not post:
-        raise HTTPException(status_code=404, detail="Post not found")
-    return post
+@router.get("/{portfolio_id}", response_model=PortfolioResponse)
+async def get_portfolio(portfolio_id: str, auth_user: dict = Depends(verify_token)):
+    return PortfolioService.get_portfolio_by_id(portfolio_id, auth_user)
 
-@router.put("/{post_id}", response_model=PortfolioResponse)
-def update_post(post_id: str, portfolio_post: Portfolio):
-    update_data = portfolio_post.model_dump(exclude_unset=True)
-    updated_post = PortfolioService.update_post(post_id, update_data)
-    if not updated_post:
-        raise HTTPException(status_code=404, detail="Post not found")
-    return updated_post
+@router.put("/{portfolio_id}", response_model=dict)
+async def update_portfolio(portfolio_id: str, updated_portfolio: Portfolio, auth_user: dict = Depends(verify_token)):
+    return PortfolioService.update_portfolio(portfolio_id, updated_portfolio, auth_user)
 
-@router.delete("/{post_id}", response_model=PortfolioResponse)
-def delete_post(post_id: str):
-    deleted_post = PortfolioService.delete_post(post_id)
-    if not deleted_post:
-        raise HTTPException(status_code=404, detail="Post not found")
-    return deleted_post
+@router.delete("/{portfolio_id}", response_model=dict)
+async def delete_portfolio(portfolio_id: str, auth_user: dict = Depends(verify_token)):
+    return PortfolioService.delete_portfolio(portfolio_id, auth_user)

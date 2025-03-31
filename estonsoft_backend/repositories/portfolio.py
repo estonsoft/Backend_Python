@@ -1,40 +1,26 @@
 from bson import ObjectId
-from datetime import datetime
-from lib.mongo import get_mongo  # ✅ Import get_mongo()
-
-# Initialize database instance
+from lib.mongo import get_mongo
 db = get_mongo()
 
 class PortfolioRepository:
-    collection = db.portfolio  # ✅ Correct way to access MongoDB collection
+    collection = db["portfolios"]
 
     @staticmethod
-    def create(portfolio_post: dict):
-        portfolio_post["timestamp"] = datetime.now().isoformat()
-        result = PortfolioRepository.collection.insert_one(portfolio_post)
-        portfolio_post["id"] = str(result.inserted_id)
-        return portfolio_post
+    def create(portfolio_data: dict):
+        return PortfolioRepository.collection.insert_one(portfolio_data).inserted_id
 
     @staticmethod
     def get_all():
-        return [{**post, "id": str(post.pop("_id"))} for post in PortfolioRepository.collection.find()]
+        return list(PortfolioRepository.collection.find())
 
     @staticmethod
-    def get_by_id(post_id: str):
-        post_object_id = ObjectId(post_id)
-        post = PortfolioRepository.collection.find_one({"_id": post_object_id})
-        return {**post, "id": str(post.pop("_id"))} if post else None
+    def get_by_id(portfolio_id: str):
+        return PortfolioRepository.collection.find_one({"_id": ObjectId(portfolio_id)})
 
     @staticmethod
-    def update(post_id: str, update_data: dict):
-        post_object_id = ObjectId(post_id)
-        PortfolioRepository.collection.update_one({"_id": post_object_id}, {"$set": update_data})
-        return PortfolioRepository.get_by_id(post_id)
+    def update(portfolio_id: str, updated_data: dict):
+        return PortfolioRepository.collection.update_one({"_id": ObjectId(portfolio_id)}, {"$set": updated_data})
 
     @staticmethod
-    def delete(post_id: str):
-        post_object_id = ObjectId(post_id)
-        post = PortfolioRepository.get_by_id(post_id)
-        if post:
-            PortfolioRepository.collection.delete_one({"_id": post_object_id})
-        return post
+    def delete(portfolio_id: str):
+        return PortfolioRepository.collection.delete_one({"_id": ObjectId(portfolio_id)})
