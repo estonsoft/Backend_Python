@@ -6,6 +6,7 @@ _client = None
 _db = None
 
 MONGO_URI = os.getenv("MONGO_URI")
+print("mongo uri", MONGO_URI)
 
 def connect_mongo():
     global _client, _db

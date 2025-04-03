@@ -5,6 +5,7 @@ from lib.mongo import get_mongo  # Import MongoDB connection
 
 # Load secret key from environment
 SECRET_KEY = os.getenv("SECRET_KEY")
+print("secret key",SECRET_KEY)
 
 # Get users collection
 db = get_mongo()
