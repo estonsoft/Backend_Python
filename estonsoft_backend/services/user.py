@@ -39,6 +39,7 @@ class UserService:
     def initialize_admin():
         """Create admin user if not exists"""
         adminPassword=os.getenv("ADMIN_PASSWORD")
+        print("admin_password: ", adminPassword )
         if not UserRepository.get_user_by_email("admin@email.com"):
             admin_data = {
                 "name": "Admin",

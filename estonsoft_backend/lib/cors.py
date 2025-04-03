@@ -2,6 +2,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS")
+print("ALLOWED_ORIGINS", ALLOWED_ORIGINS)
 allowed_origins_list = ALLOWED_ORIGINS.split(",")
 
 def setup_cors(app):
