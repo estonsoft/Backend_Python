@@ -6,11 +6,6 @@ from typing import List
 
 router = APIRouter(prefix="/blogs")
 
-@router.get("/health", response_model=dict)
-def health_check():
-    return {"status": "ok"}
-
-
 @router.post("/", response_model=dict)
 def create_blog(blog: BlogPost, auth_user: dict = Depends(verify_token)):
     return BlogService.create_blog(blog.dict(), auth_user)
