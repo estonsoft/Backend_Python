@@ -3,3 +3,4 @@ pymongo
 bcrypt
 pyjwt
 uvicorn[standard]
+python-dotenv
