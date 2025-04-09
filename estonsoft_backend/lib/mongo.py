@@ -5,13 +5,13 @@ from pymongo import MongoClient
 _client = None
 _db = None
 
-MONGO_URI = os.getenv("MONGO_URI")
-print("mongo uri", MONGO_URI)
+MONGO_CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
+print("mongo uri", MONGO_CONNECTION_STRING)
 
 def connect_mongo():
     global _client, _db
     if _client is None:
-        _client = MongoClient(MONGO_URI)  # ✅ Initialize only once
+        _client = MongoClient(MONGO_CONNECTION_STRING)  # ✅ Initialize only once
         _db = _client["rbac"]  # ✅ Get database instance
     return _client  # ✅ Return client for manual operations if needed
 
@@ -24,5 +24,6 @@ def get_mongo():
 
 db = get_mongo()
 users_collection = db["users"]
+blog_collection = db["blogs"]
 portfolio_collection = db["portfolios"]
 testimonial_collection = db["testimonials"]
