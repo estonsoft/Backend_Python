@@ -57,7 +57,9 @@ class BlogService:
                 "image": blog.get("image"),
                 "paragraph": blog["paragraph"],
                 "content": blog["content"],
-                "author": blog["author"],
+                "authorName": blog["authorName"],
+                "authorImage": blog["authorImage"],
+                "authorDesignation": blog["authorDesignation"],
                 "tags": blog.get("tags", []),
                 "publishDate": blog["publishDate"]
             }
@@ -79,7 +81,9 @@ class BlogService:
             "image": blog.get("image"),
             "paragraph": blog["paragraph"],
             "content": blog["content"],
-            "author": blog["author"],
+            "authorName": blog["authorName"],
+            "authorImage": blog["authorImage"],
+            "authorDesignation": blog["authorDesignation"],
             "tags": blog.get("tags", []),
             "publishDate": blog["publishDate"]
         }
